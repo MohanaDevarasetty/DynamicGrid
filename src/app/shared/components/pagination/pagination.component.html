@@ -1,0 +1,37 @@
+<ng-container>
+    <div class="row" >
+        <div class="col-12 col-md-4" >
+            <nav aria-label="Page navigation example" *ngIf="listView?.noOfRecords > recordsPerPage">
+                <ul class="pagination">
+                    <li class="page-item" [ngClass]="{ disabled: pager?.currentPage === 1 }">
+                        <a class="page-link pointer" (click)="setPage(pager?.currentPage - 1)"></a>
+                    </li>
+                    <li class="page-item" *ngFor="let page of pager?.pages; let i = index"
+                        [ngClass]="{ active: pager?.currentPage === page }" (click)="setPage(page)">
+                        <a class="page-link pointer">{{ page }}</a>
+                    </li>
+                    <li class="page-item" [ngClass]="{ disabled: pager?.currentPage === pager.totalPages }">
+                        <a class="page-link pointer" (click)="setPage(pager?.currentPage + 1)"></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="col-12 col-md-8">
+            <div class="show-entry-wrapper">
+                <div class="show-entry">
+                    <div *ngIf="pager?.totalItems">
+                        Showing {{ pager.startIndex + 1 }} to <span class="active">
+                            {{ pager.endIndex + 1 }}</span> of {{ pager?.totalItems }} entries
+                    </div>
+                    <!-- <select [(ngModel)]="recordsPerPage" (ngModelChange)="changeInRecordsPerPage($event)"
+                        class="form-control form-control-sm">
+                        <option *ngFor="let entryPerPage of entriesPerPageDropDown" [value]="entryPerPage">{{ entryPerPage }}
+                        </option>
+                    </select>
+                    <div>records per page</div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</ng-container>
