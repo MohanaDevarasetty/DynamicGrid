@@ -1,0 +1,18 @@
+<ng-container *ngIf="enableTable">
+    <div class="table-settings">
+        <div class="row">
+            <div class="col-6">
+                <app-filter [headers]="headers" [keyMap]="keyMap" [parentPage]="parentPage"></app-filter>
+            </div>
+            <div class="col-6">
+                <app-search-box [headers]="headers" [keyMap]="keyMap" (emiter)="getTableListDetails($event)"></app-search-box>
+            </div>
+        </div>
+    </div>
+    <app-table [headers]="headers" [list]="list" [keyMap]="keyMap" [permissionCode]="parentPage" [tableDetails]="tableDetails"
+    [actionDetails]="actionDetails"
+    ></app-table>
+    <div >
+        <app-export-file [headers]="headers" [list]="list" [keyMap]="keyMap" [parentPage]="parentPage"></app-export-file>
+    </div>
+</ng-container>

@@ -1,0 +1,38 @@
+<!-- <div class="row">
+    <div class="col-6"> -->
+        <div class="table-filter">
+            <button #filterFunButton (click)="filterFunction()" type="button" class="btn-link btn-filter"><img
+                    src="assets/images/filter-icon.png" alt="Filter">
+                <span>Filter</span></button>
+            <div #filterFunDiv class="filter-dropdown" id="filter-dropdown" [ngClass]="openFilter ? 'show' : ''">
+                <div class="select-all">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input"
+                            (change)="$event ? masterToggle($event) : null"
+                            [checked]="selection.hasValue() && isAllSelected() == true"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()" id="filterSelectAll">
+                        <label class="custom-control-label" for="filterSelectAll">Select
+                            All</label>
+                    </div>
+                </div>
+                <div class="filter-content">
+                    <ng-container *ngFor="let header of availableHeaders;let i=index">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input"
+                                [attr.disabled]="(i === 0) ? 'disabled' : null"
+                                (change)="$event ? selectColumn($event, header) : null"
+                                [checked]="selection.isSelected(header) == true" id="filter{{i}}">
+                            <label class="custom-control-label" for="filter{{i}}">
+                                {{keyMap.get(header).displayName | splitCamelCase}}
+                            </label>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    <!-- </div>
+    <div class="col-6">
+        <button type="button" class="btn-link btn-view-all float-right"><img
+                src="assets/images/down-arrow.png" alt="Filter"> View All</button>
+    </div>
+</div> -->

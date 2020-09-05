@@ -1,0 +1,131 @@
+<div class="table-responsive">
+    <table class="table table-striped table-borderless">
+        <thead>
+            <tr>
+                <ng-container *ngFor="let key of headers">
+                    <th *ngIf="keyMap.get(key).available && keyMap.get(key).isActive" [class]="getClass(key)"
+                        (click)="sort(key)">
+                        {{keyMap.get(key).displayName | splitCamelCase}}</th>
+                </ng-container>
+                <th tabindex="0" aria-controls="myTable" rowspan="1" colspan="1"
+                    aria-label="Action: activate to sort column ascending">
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container>
+                <tr *ngFor="let record of pagedItems; let i = index">
+                    <ng-container *ngFor="let key of headers; let j = index">
+                        <td *ngIf="keyMap.get(key).available && keyMap.get(key).isActive"
+                            [style.text-align]="(keyMap.get(key).type !== 'String' && keyMap.get(key).type !== 'Date') ? 'right' : 'left'">
+                            {{ (keyMap.get(key).type !== 'String' && (keyMap.get(key).type === 'Amount' ||keyMap.get(key).type === 'Double' )  ? ((record[key] || record[key] == 0) ? (record[key] | number:'1.2-2') : '') 
+                            : ((keyMap.get(key).type === 'Date' ||keyMap.get(key).type === 'Datetime' ) ? (record[key] ? (record[key] | date: 'dd-MM-yyyy HH:mm') : '') : (record[key] ? record[key] : ''))) }}
+                        </td>
+                    </ng-container>
+                    <td>
+                        <ng-container>
+                            <ng-container *ngIf="actions?.privileges?.view">
+                                <ng-container *ngxPermissionsOnly="actions?.privileges?.view">
+                                    <button title="{{ actions?.titles?.view }}"
+                                        *ngIf="conditionCheck(actions?.condition?.view, record)" class="btn-link"
+                                        type="button" name="View" (click)="viewOrEditDetails(record)" value="">{{actions?.buttons?.view}}
+                                    </button>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="actions?.privileges?.edit">
+                                <ng-container *ngxPermissionsOnly="actions?.privileges?.edit"> 
+                                    <button title="{{ actions?.titles?.edit }}"
+                                        *ngIf="conditionCheck(actions?.condition?.edit, record)" class="btn-link"
+                                        type="button" name="edit" (click)="viewOrEditDetails(record)" value="">{{actions?.buttons?.edit}}
+                                    </button>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="actions?.privileges?.proceed">
+                                <ng-container *ngxPermissionsOnly="actions?.privileges?.proceed"> 
+                                    <button title="{{ actions?.titles?.proceed }}"
+                                        *ngIf="conditionCheck(actions?.condition?.proceed, record)" class="btn-link"
+                                        type="button" name="proceed" (click)="viewOrEditDetails(record)" value="">{{actions?.buttons?.proceed}}
+                                    </button>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="actions?.privileges?.start">
+                                <ng-container *ngxPermissionsOnly="actions?.privileges?.start">
+                                    <button title="{{ actions?.titles?.start }}"
+                                        *ngIf="conditionCheck(actions?.condition?.start, record)" class="btn-link"
+                                        type="button" name="start" (click)="processExcutions('start', record)" value="">{{actions?.buttons?.start}}
+                                    </button>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="actions?.privileges?.stop">
+                                <ng-container *ngxPermissionsOnly="actions?.privileges?.stop">
+                                    <button title="{{ actions?.titles?.stop }}"
+                                        *ngIf="conditionCheck(actions?.condition?.stop, record)" class="btn-link"
+                                        type="button" name="stop" (click)="processExcutions('stop', record)" value="">{{actions?.buttons?.stop}}
+                                    </button>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="actions?.privileges?.monitor">
+                                <ng-container *ngxPermissionsOnly="actions?.privileges?.monitor">
+                                    <button title="{{ actions?.titles?.monitor }}"
+                                        *ngIf="conditionCheck(actions?.condition?.monitor, record)" class="btn-link"
+                                        type="button" name="monitor" (click)="processNavigation('monitor', record, actions?.navigator?.monitor)" value="">{{actions?.buttons?.monitor}}
+                                    </button>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="actions?.privileges?.execution">
+                                <ng-container *ngxPermissionsOnly="actions?.privileges?.execution">
+                                    <button title="{{ actions?.titles?.execution }}"
+                                        *ngIf="conditionCheck(actions?.condition?.execution, record)" class="btn-link"
+                                        type="button" name="execution" (click)="processExcutions('execution', record)" value="">{{actions?.buttons?.execution}}
+                                    </button>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="actions?.privileges?.verify">
+                                <ng-container *ngxPermissionsOnly="actions?.privileges?.verify">
+                                    <button title="{{ actions?.titles?.verify }}"
+                                        *ngIf="conditionCheck(actions?.condition?.verify, record)" class="btn-link"
+                                        type="button" name="verify" (click)="processExcutions('verify', record)" value="">{{actions?.buttons?.verify}}
+                                    </button>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="actions?.privileges?.reject">
+                                <ng-container *ngxPermissionsOnly="actions?.privileges?.reject">
+                                    <button title="{{ actions?.titles?.reject }}"
+                                        *ngIf="conditionCheck(actions?.condition?.reject, record)" class="btn-link"
+                                        type="button" name="reject" (click)="processExcutions('reject', record)" value="">{{actions?.buttons?.reject}}
+                                    </button>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="actions?.privileges?.inspect">
+                                <ng-container *ngxPermissionsOnly="actions?.privileges?.inspect">
+                                    <button title="{{ actions?.titles?.inspect }}"
+                                        *ngIf="conditionCheck(actions?.condition?.inspect, record)" class="btn-link"
+                                        type="button" name="inspect" (click)="processNavigation('inspect', record, actions?.navigator?.inspect)" value="">{{actions?.buttons?.inspect}}
+                                    </button>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="actions?.privileges?.breakdown">
+                                <ng-container *ngxPermissionsOnly="actions?.privileges?.breakdown">
+                                    <button title="{{ actions?.titles?.breakdown }}"
+                                        *ngIf="conditionCheck(actions?.condition?.breakdown, record)" class="btn-link"
+                                        type="button" name="breakdown" (click)="processNavigation('breakdown', record, actions?.navigator?.breakdown)" value="">{{actions?.buttons?.breakdown}}
+                                    </button>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+        <tfoot>
+            <tr *ngIf="pagedItems?.length === 0">
+                <td [attr.colspan]="colSpanLength" id="noRecords" align="center">
+                    No records found
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<app-pagination [list]="list" [tableDetails]="tableDetails" (setPageEmitter)="setPage($event)"
+    (emiter)="changePagedItems($event)"></app-pagination>

@@ -1,0 +1,25 @@
+<!-- <app-sequence-tabs></app-sequence-tabs> -->
+<ng-container *ngIf="enableData">
+    <!-- <ng-container *ngxPermissionsOnly="[allPermission,viewPermission]"> -->
+        <ng-container>
+        <section class="right-section">
+            <div class="section-title">
+                <div class="row">
+                    <div class="col-9">
+                        <h2><span>{{ title | titlecase }}</span></h2>
+                    </div>
+                    <div class="col-3">
+                        <ng-container *ngxPermissionsOnly="allPermission">
+                            <a routerLink="{{routerNavigationlink}}"
+                                *ngIf="!nonNewAddButtonUrls.includes(route.url) && checkAddButtonStatusFromService()"
+                                class="btn-link float-right">{{addButtonTitle}}</a>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+            <div class="section-content">
+                <app-list [parentPage]="parentPage"></app-list>
+            </div>
+        </section>
+    </ng-container>
+    </ng-container>
